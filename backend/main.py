@@ -67,7 +67,14 @@ app.add_middleware(
 # Global instances
 rag_pipeline = RAGPipeline()
 prompt_templates = get_prompt_templates()
-doc_generator = DocumentGenerator("./outputs")
+
+# Determine output directory (use /tmp for Vercel/Lambda, else ./outputs)
+# Vercel filesystem is read-only except for /tmp
+OUTPUT_DIR = "/tmp" if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME") else "./outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+logger.info(f"Using output directory: {OUTPUT_DIR}")
+
+doc_generator = DocumentGenerator(OUTPUT_DIR)
 
 
 class DocumentRequest(BaseModel):
@@ -267,7 +274,8 @@ async def download_document(filename: str):
         FileResponse with the DOCX file
     """
     try:
-        file_path = Path("./outputs") / filename
+        # Use the same OUTPUT_DIR as defined globally
+        file_path = Path(OUTPUT_DIR) / filename
 
         if not file_path.exists():
             logger.warning(f"File not found: {file_path}")
