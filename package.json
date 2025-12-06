@@ -1,0 +1,11 @@
+{
+    "name": "legal-drafting-root",
+    "version": "1.0.0",
+    "description": "Root package to forward commands to frontend",
+    "scripts": {
+        "start": "cd frontend && npm run dev",
+        "backend": "py main.py"
+    },
+    "author": "Antigravity",
+    "license": "ISC"
+}
