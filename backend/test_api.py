@@ -6,8 +6,8 @@ Run this after starting main.py
 import requests
 import json
 
-# BASE_URL = "http://localhost:8000"
-BASE_URL = "https://llm-project-backend.vercel.app"
+BASE_URL = "http://localhost:8000"
+# BASE_URL = "https://llm-project-backend.vercel.app"
 
 print("=" * 70)
 print("LEGAL DOCUMENT DRAFTING LLM ENGINE - QUICK TEST")

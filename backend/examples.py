@@ -8,8 +8,8 @@ import requests
 from typing import Dict, Any
 
 # API Base URL
-# BASE_URL = "http://localhost:8000"
-BASE_URL = "https://llm-project-backend.vercel.app"
+BASE_URL = "http://localhost:8000"
+# BASE_URL = "https://llm-project-backend.vercel.app"
 
 
 class LegalDocumentClient:

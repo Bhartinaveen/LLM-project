@@ -33,8 +33,8 @@ function App() {
         details: {}
       };
 
-      // const response = await axios.post('http://localhost:8000/draft-document', payload);
-      const response = await axios.post('https://llm-project-backend.vercel.app/draft-document', payload);
+      const response = await axios.post('http://localhost:8000/draft-document', payload);
+      // const response = await axios.post('https://llm-project-backend.vercel.app/draft-document', payload);
       setResult(response.data);
     } catch (err: any) {
       console.error(err);
@@ -47,8 +47,8 @@ function App() {
   const handleDownload = async () => {
     if (!result) return;
     try {
-      // const response = await axios.get(`http://localhost:8000${result.download_url}`, {
-      const response = await axios.get(`https://llm-project-backend.vercel.app${result.download_url}`, {
+      const response = await axios.get(`http://localhost:8000${result.download_url}`, {
+      // const response = await axios.get(`https://llm-project-backend.vercel.app${result.download_url}`, {
         responseType: 'blob'
       });
 
@@ -62,8 +62,8 @@ function App() {
     } catch (err) {
       console.error("Download failed", err);
       // Fallback: open in new tab if blob fails
-      // window.open(`http://localhost:8000${result.download_url}`, '_blank');
-      window.open(`https://llm-project-backend.vercel.app${result.download_url}`, '_blank');
+      window.open(`http://localhost:8000${result.download_url}`, '_blank');
+      // window.open(`https://llm-project-backend.vercel.app${result.download_url}`, '_blank');
     }
   };
 
