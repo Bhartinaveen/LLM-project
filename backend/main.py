@@ -40,9 +40,25 @@ app = FastAPI(
 
 # Configure CORS
 from fastapi.middleware.cors import CORSMiddleware
+import os
+
+# Define allowed origins
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "https://llm-project-frontend.vercel.app",
+    "https://llm-project-backend.vercel.app",
+]
+
+# Add origins from environment variable if present
+env_origins = os.getenv("ALLOWED_ORIGINS")
+if env_origins:
+    origins.extend([origin.strip() for origin in env_origins.split(",")])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for development
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
