@@ -40,25 +40,9 @@ app = FastAPI(
 
 # Configure CORS
 from fastapi.middleware.cors import CORSMiddleware
-import os
-
-# Define allowed origins
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "https://llm-project-frontend.vercel.app",
-    "https://llm-project-backend.vercel.app",
-]
-
-# Add origins from environment variable if present
-env_origins = os.getenv("ALLOWED_ORIGINS")
-if env_origins:
-    origins.extend([origin.strip() for origin in env_origins.split(",")])
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allow all origins for development
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,14 +51,7 @@ app.add_middleware(
 # Global instances
 rag_pipeline = RAGPipeline()
 prompt_templates = get_prompt_templates()
-
-# Determine output directory (use /tmp for Vercel/Lambda, else ./outputs)
-# Vercel filesystem is read-only except for /tmp
-OUTPUT_DIR = "/tmp" if os.getenv("VERCEL") or os.getenv("AWS_LAMBDA_FUNCTION_NAME") else "./outputs"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-logger.info(f"Using output directory: {OUTPUT_DIR}")
-
-doc_generator = DocumentGenerator(OUTPUT_DIR)
+doc_generator = DocumentGenerator("./outputs")
 
 
 class DocumentRequest(BaseModel):
@@ -274,8 +251,7 @@ async def download_document(filename: str):
         FileResponse with the DOCX file
     """
     try:
-        # Use the same OUTPUT_DIR as defined globally
-        file_path = Path(OUTPUT_DIR) / filename
+        file_path = Path("./outputs") / filename
 
         if not file_path.exists():
             logger.warning(f"File not found: {file_path}")

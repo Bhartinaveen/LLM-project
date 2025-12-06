@@ -34,8 +34,11 @@ class LLMConfig:
         """
         self.api_key = api_key or os.getenv("GEMINI_API_KEY")
         if not self.api_key:
-            logger.warning("GEMINI_API_KEY not found. LLM features will fail if used.")
-        
+            raise ValueError(
+                "GEMINI_API_KEY not found in environment variables. "
+                "Please set it in .env file or environment."
+            )
+
         self.model = model
         self.temperature = temperature
         self.max_tokens = max_tokens
@@ -50,9 +53,6 @@ class LLMConfig:
             Gemini model wrapper instance
         """
         import google.generativeai as genai
-
-        if not self.api_key:
-             raise ValueError("GEMINI_API_KEY is missing. Cannot use LLM.")
 
         genai.configure(api_key=self.api_key)
 
