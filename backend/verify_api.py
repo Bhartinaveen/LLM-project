@@ -2,7 +2,8 @@ import requests
 import json
 import time
 
-url = "http://localhost:8000/draft-document"
+# url = "http://localhost:8000/draft-document"
+url = "https://llm-project-backend.vercel.app/draft-document"
 
 payload = {
   "details": {
